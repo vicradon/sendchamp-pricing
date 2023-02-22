@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
+import Image from "next/image";
 
 interface Props {}
 
@@ -112,7 +113,7 @@ function Footer(props: Props) {
   };
 
   return (
-    <Box backgroundColor={"#0d253f"} color={"#ffffff"}>
+    <Box backgroundColor={"#0d253f"} color={"#ffffff"} paddingBottom={"2rem"}>
       <Container maxW={"container.xl"}>
         <Grid
           padding={"4rem 2rem"}
@@ -149,15 +150,61 @@ function Footer(props: Props) {
           })}
         </Grid>
 
-        <hr />
+        <Grid
+          gridTemplateColumns={{
+            base: "1fr",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(3, 1fr)",
+          }}
+          rowGap={"2rem"}
+          columnGap={"2rem"}
+          mb={"2rem"}
+          borderY={"1px solid gray"}
+          padding={"3rem"}
+        >
+          <Image
+            src="/images/sendchamp-logo-white.svg"
+            alt="Sendchamp Logo"
+            width={200}
+            height={40}
+          />
 
-        <Box>Logo</Box>
-        <Box textAlign={"center"}>
-          <Text>142, Ahmadu Bello Way, Victoria Island, Lagos, Nigeria</Text>
-          <Text>2055 Limestone Rd STE 200-C Wilmington, DE 19808</Text>
-        </Box>
+          <Flex columnGap={"1rem"} alignItems="center">
+            <Box
+              display={{
+                base: "none",
+                md: "block",
+              }}
+            >
+              <Image
+                src="/images/nigeria-flag.svg"
+                alt="Nigeria Flag"
+                width={40}
+                height={40}
+              />
+            </Box>
 
-        <Text textAlign={"center"}>
+            <Text>142, Ahmadu Bello Way, Victoria Island, Lagos, Nigeria</Text>
+          </Flex>
+          <Flex columnGap={"1rem"} alignItems="center">
+            <Box
+              display={{
+                base: "none",
+                md: "block",
+              }}
+            >
+              <Image
+                src="/images/us-flag.svg"
+                alt="Nigeria Flag"
+                width={40}
+                height={40}
+              />
+            </Box>
+            <Text>2055 Limestone Rd STE 200-C Wilmington, DE 19808</Text>
+          </Flex>
+        </Grid>
+
+        <Text opacity={"0.5"} color={"gray.50"} textAlign={"center"}>
           Built with ❤️ at Sendchamp Inc. - &copy; {new Date().getFullYear()} |
           All rights reserved
         </Text>

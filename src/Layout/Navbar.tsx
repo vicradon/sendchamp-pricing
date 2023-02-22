@@ -9,7 +9,13 @@ function Navbar(props: Props) {
   const {} = props;
 
   return (
-    <Box bgColor={"#edf5fe"}>
+    <Box
+      bgColor={"#edf5fe"}
+      position={"sticky"}
+      width={"100%"}
+      top={0}
+      zIndex={999}
+    >
       <Container maxW={"container.xl"}>
         <Flex
           padding={"2rem"}
@@ -23,7 +29,11 @@ function Navbar(props: Props) {
             height={20}
           />
 
-          <Flex columnGap={"2rem"} alignItems={"center"}>
+          <Flex
+            display={{ base: "none", lg: "flex" }}
+            columnGap={"2rem"}
+            alignItems={"center"}
+          >
             <Button fontWeight={"medium"} variant={"unstyled"}>
               Products
             </Button>
@@ -41,12 +51,30 @@ function Navbar(props: Props) {
             </Link>
           </Flex>
 
-          <Flex columnGap={"1rem"}>
+          <Flex display={{ base: "none", lg: "flex" }} columnGap={"1rem"}>
             <Link alignSelf={"center"} as={NextLink} href={"/login"}>
               Login
             </Link>
             <Button colorScheme={"brand"}>Get Started</Button>
           </Flex>
+
+          <Button
+            display={{
+              base: "block",
+              lg: "none",
+            }}
+            bgColor="transparent"
+            _hover={{
+              bgColor: "transparent",
+            }}
+          >
+            <Image
+              src={"/icons/Bars.svg"}
+              alt={"menu"}
+              width={20}
+              height={20}
+            />
+          </Button>
         </Flex>
       </Container>
     </Box>

@@ -72,105 +72,104 @@ function OfferingCards(props: Props) {
   ];
 
   return (
-    // <Container
-    //   maxW={{
-    //     base: "container.sm",
-    //     // lg: "container.md",
-    //     // xl: "container.sm",
-    //   }}
-    // >
-    <Flex flexWrap={"wrap"} rowGap={"2rem"} columnGap={"2rem"}>
-      {offerings.map((offering) => {
-        let comingSoon = false;
+    <Container maxW={"container.xl"}>
+      <Flex flexWrap={"wrap"} rowGap={"3rem"} columnGap={"1rem"}>
+        {offerings.map((offering) => {
+          let comingSoon = false;
 
-        if (offering.rightSection) {
-          comingSoon = offering.rightSection.pricing === "";
-        }
+          if (offering.rightSection) {
+            comingSoon = offering.rightSection.pricing === "";
+          }
 
-        return (
-          <Box
-            key={offering.name}
-            border={"1px solid #197eef66"}
-            rounded={"lg"}
-            minWidth={"300px"}
-          >
-            <Box padding={"2rem 1rem"}>
-              <Box
-                width={"64px"}
-                height={"64px"}
-                bgColor={"brand.500"}
-                rounded={"lg"}
-                padding={"5px"}
-                display={"flex"}
-                alignItems={"center"}
-                justifyContent={"center"}
-                mb={"2rem"}
-              >
-                <Image
-                  src={offering.icon}
-                  width={32}
-                  height={32}
-                  alt={offering.name}
-                />
-              </Box>
-
-              <Box>
-                <Text fontSize={"lg"} fontWeight={"bold"} mb={"2rem"}>
-                  {offering.name}
-                </Text>
-                <Flex justifyContent={"space-between"}>
-                  <Box>
-                    <Text mb={"0.5rem"}>{offering.leftSection.text}</Text>
-                    <Text>{offering.leftSection.pricing}</Text>
-                  </Box>
-                  <Box fontSize={"sm"}>
-                    <Text mb={"0.5rem"}>{offering?.rightSection?.text}</Text>
-                    <Text>
-                      {comingSoon ? (
-                        <Box
-                          padding={"5px 10px"}
-                          color={"#197eef"}
-                          bgColor={"#197eef14"}
-                          rounded={"full"}
-                          fontSize={"xs"}
-                          display={"inline-flex"}
-                          justifyContent={"center"}
-                          alignItems={"center"}
-                        >
-                          Coming soon
-                        </Box>
-                      ) : (
-                        offering?.rightSection?.pricing
-                      )}
-                    </Text>
-                  </Box>
-                </Flex>
-              </Box>
-            </Box>
-
-            {offering.moreDetails && (
-              <Flex
-                justifyContent={"center"}
-                alignItems={"center"}
-                borderTop={"1px solid #197eef66"}
-                padding={"2rem"}
-              >
-                <Button
-                  textDecor={"underline"}
-                  textAlign={"center"}
-                  variant={"link"}
-                  colorScheme={"brand"}
-                  fontSize={"lg"}
+          return (
+            <Box
+              key={offering.name}
+              border={"1px solid #197eef66"}
+              rounded={"lg"}
+              minWidth={{
+                base: "100%",
+                md: "380px",
+              }}
+              margin={"0 auto"}
+              bgColor={"white"}
+            >
+              <Box padding={"2rem"}>
+                <Box
+                  width={"64px"}
+                  height={"64px"}
+                  bgColor={"brand.500"}
+                  rounded={"lg"}
+                  padding={"5px"}
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                  mb={"2rem"}
                 >
-                  More details
-                </Button>
-              </Flex>
-            )}
-          </Box>
-        );
-      })}
-    </Flex>
-    // </Container>
+                  <Image
+                    src={offering.icon}
+                    width={32}
+                    height={32}
+                    alt={offering.name}
+                  />
+                </Box>
+
+                <Box>
+                  <Text fontSize={"lg"} fontWeight={"bold"} mb={"2rem"}>
+                    {offering.name}
+                  </Text>
+                  <Flex justifyContent={"space-between"}>
+                    <Box>
+                      <Text mb={"0.5rem"}>{offering.leftSection.text}</Text>
+                      <Text>{offering.leftSection.pricing}</Text>
+                    </Box>
+                    <Box fontSize={"sm"}>
+                      <Text mb={"0.5rem"}>{offering?.rightSection?.text}</Text>
+                      <Text>
+                        {comingSoon ? (
+                          <Box
+                            padding={"5px 10px"}
+                            color={"#197eef"}
+                            bgColor={"#197eef14"}
+                            rounded={"full"}
+                            fontSize={"xs"}
+                            display={"inline-flex"}
+                            justifyContent={"center"}
+                            alignItems={"center"}
+                          >
+                            Coming soon
+                          </Box>
+                        ) : (
+                          offering?.rightSection?.pricing
+                        )}
+                      </Text>
+                    </Box>
+                  </Flex>
+                </Box>
+              </Box>
+
+              {offering.moreDetails && (
+                <Flex
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                  borderTop={"1px solid #197eef66"}
+                  padding={"2rem"}
+                >
+                  <Button
+                    textDecor={"underline"}
+                    textAlign={"center"}
+                    variant={"link"}
+                    colorScheme={"brand"}
+                    fontSize={"lg"}
+                  >
+                    More details
+                  </Button>
+                </Flex>
+              )}
+            </Box>
+          );
+        })}
+      </Flex>
+    </Container>
   );
 }
 

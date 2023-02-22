@@ -7,6 +7,7 @@ import {
   HStack,
   Input,
   Select,
+  Spinner,
   Stack,
   Text,
   useToast,
@@ -14,7 +15,7 @@ import {
 import OfferingCards from "Components/OfferingCards";
 import HomeLayout from "Layout/HomeLayout";
 import Meta from "Layout/Meta";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { atom } from "recoil";
 
 export default function Home({ countries }) {
@@ -27,9 +28,39 @@ export default function Home({ countries }) {
     default: "NGN",
   });
 
+  const [loadingPrices, setLoadingPrices] = useState(false);
+
+  const [country, setCountry] = useState("Nigeria");
+  const [currency, setCurrency] = useState("NGN");
+
+  useEffect(() => {
+    let timeout;
+    const fetchPrices = async () => {
+      try {
+        setLoadingPrices(true);
+
+        timeout = setTimeout(() => {
+          setLoadingPrices(false);
+        }, 2000);
+      } catch (error) {}
+    };
+    fetchPrices();
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [country, currency]);
+
   return (
     <HomeLayout>
-      <Box height={"60vh"} margin={"auto"} bgColor={"#edf5fe"}>
+      <Box
+        height={{
+          base: "40vh",
+          lg: "60vh",
+        }}
+        margin={"auto"}
+        bgColor={"#edf5fe"}
+      >
         <Container
           maxW={{
             base: "container.xl",
@@ -45,13 +76,27 @@ export default function Home({ countries }) {
           <Heading as={"h1"} textAlign={"center"} variant={"h1"}>
             Pricing for every business
           </Heading>
-          <Text textAlign={"center"}>
+          <Text textAlign={"center"} mb={"2rem"}>
             No hidden fees or charges - simple & flexible pricing that fits with
             your business at any stage.
           </Text>
 
-          <HStack spacing={"20px"}>
-            <Select value={"Nigeria"} size="lg" bgColor={"white"}>
+          <Flex
+            flexDirection={{
+              base: "column",
+              lg: "row",
+            }}
+            columnGap={"20px"}
+            rowGap={"20px"}
+          >
+            <Select
+              value={country}
+              size="lg"
+              bgColor={"white"}
+              width={"70%"}
+              margin={"auto"}
+              onChange={({ target }) => setCountry(target.value)}
+            >
               {countries.map((country) => {
                 return (
                   <option key={country.name.common} value={country.name.common}>
@@ -60,7 +105,14 @@ export default function Home({ countries }) {
                 );
               })}
             </Select>
-            <Select value={"NGN"} size="lg" bgColor={"white"}>
+            <Select
+              value={currency}
+              size="lg"
+              bgColor={"white"}
+              width={"70%"}
+              margin={"auto"}
+              onChange={({ target }) => setCurrency(target.value)}
+            >
               {countries.map((country) => {
                 const currency =
                   country.currencies && Object?.keys(country.currencies)[0];
@@ -74,11 +126,41 @@ export default function Home({ countries }) {
                 );
               })}
             </Select>
-          </HStack>
+          </Flex>
         </Container>
       </Box>
 
-      <OfferingCards />
+      {!loadingPrices && (
+        <Box
+          position={"relative"}
+          marginTop={{
+            base: 0,
+            lg: "-4rem",
+          }}
+          paddingTop={{
+            base: "4rem",
+            lg: 0,
+          }}
+          paddingBottom={"4rem"}
+        >
+          <OfferingCards />
+        </Box>
+      )}
+
+      <Flex justifyContent={"center"}>
+        {loadingPrices && (
+          <Flex
+            justifyContent={"center"}
+            alignItems={"center"}
+            flexDirection={"column"}
+            rowGap={"1rem"}
+            padding={"2rem"}
+          >
+            <Spinner color="brand.500" />
+            <Text>Fetching prices...</Text>
+          </Flex>
+        )}
+      </Flex>
 
       <Box bgColor={"#edf5fe"}>
         <Container
@@ -133,14 +215,22 @@ export default function Home({ countries }) {
 }
 
 export const getStaticProps = async () => {
-  const res = await fetch(
-    "https://restcountries.com/v3.1/all?fields=name,currencies"
-  );
-  const countries = await res.json();
+  try {
+    const res = await fetch(
+      "https://restcountries.com/v3.1/all?fields=name,currencies"
+    );
+    const countries = await res.json();
 
-  return {
-    props: {
-      countries,
-    },
-  };
+    return {
+      props: {
+        countries,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        countries: [],
+      },
+    };
+  }
 };

@@ -12,7 +12,7 @@ function HomeLayout(props: Props) {
   const { children } = props;
 
   return (
-    <Box>
+    <Box position={"relative"}>
       <Meta />
 
       <Navbar />
